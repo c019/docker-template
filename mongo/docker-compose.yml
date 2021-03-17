@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  mongo:
+    container_name: mongo-temp
+    hostname: mongo-temp
+    image: mongo:4.4.4
+    volumes:
+      - ${MONGO_PATH:-./data}:/data/db # Criar arquivo '.env' para alocar a variável
+    # ports:
+    #   - "27017:27017"
+    restart: always
