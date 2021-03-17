@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:11.5-alpine
+    env_file:
+      - .env.postgres # Template - .env.postgres.template
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./sqls:/docker-entrypoint-initdb.d
+      - ${POSTGRES_PATH:-./data}:/var/lib/postgresql/data # Criar arquivo '.env' para alocar a variável
