@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  npm:
+    hostname: npm-temp
+    container_name: npm-temp
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - /project/node_modules
+      - ./:/project/
+    # ports:
+    #   - "127.0.0.1:3000:3000"
+    restart: always
