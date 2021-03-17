@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  nginx:
+    hostname: nginx-temp
+    container_name: nginx-temp
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '0.0.0.0:80:80'
+      - '0.0.0.0:443:443'
+    env_file:
+      - ./.env # Template - .env.template
+    volumes:
+      - ./nginx/:/etc/nginx/
+      - ${NGINX_HOST_CRT}:/etc/default/ssl/nginx.crt
+      - ${NGINX_HOST_KEY}:/etc/default/ssl/nginx.key
+    restart: always

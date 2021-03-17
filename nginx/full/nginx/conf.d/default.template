@@ -1,0 +1,44 @@
+server {
+  listen 443 ssl;
+
+  server_name $NGINX_HOST;
+
+  # SSL
+  ssl_certificate /etc/default/ssl/nginx.crt;
+  ssl_certificate_key /etc/default/ssl/nginx.key;
+
+  # security
+  include security.conf;
+
+  # general gzip
+  include general_gzip.conf;
+
+  location $API_PROXY {
+    include proxy.conf;
+    proxy_pass $API_PROXY_HOST;
+  }
+}
+
+# subdomains redirect
+server {
+  listen 443 ssl;
+
+  server_name *.$NGINX_HOST;
+
+  # SSL
+  ssl_certificate /etc/default/ssl/nginx.crt;
+  ssl_certificate_key /etc/default/ssl/nginx.key;
+
+  return 301 https://$NGINX_HOST$request_uri;
+}
+
+# HTTP redirect
+server {
+	listen 80;
+
+	server_name .$NGINX_HOST;
+
+	location / {
+		return 301 https://$NGINX_HOST$request_uri;
+	}
+}
