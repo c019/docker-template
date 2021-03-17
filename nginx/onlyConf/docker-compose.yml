@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  nginx:
+    hostname: nginx-temp
+    container_name: nginx-temp
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    env_file:
+      - ./.env # Template - .env.template
+    volumes:
+      - ${NGINX_FILE:-./default.template}:/etc/default/default.template
+      - ${NGINX_PATH-./}:/project/
